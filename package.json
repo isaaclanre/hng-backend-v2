@@ -18,6 +18,7 @@
   "homepage": "https://github.com/isaaclanre/hng-backend-v2#readme",
   "dependencies": {
     "csv-parse": "^5.3.1",
+    "csv-writer": "^1.6.0",
     "js-sha256": "^0.9.0"
   }
 }

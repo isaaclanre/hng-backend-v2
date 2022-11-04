@@ -1,4 +1,5 @@
 const fs = require("fs");
+const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 const sha256 = require("js-sha256");
 const { parse } = require("csv-parse");
 
@@ -11,6 +12,24 @@ fs.createReadStream("./HNGi9_CSV_FILE _Sheet1.csv")
   })
   .on("end", () => {
     let teamName = "";
+
+    const records = [];
+
+    const csvWriter = createCsvWriter({
+      path: "filename.output.csv",
+      header: [
+        { id: "teamnames", title: "TEAM NAMES" },
+        { id: "seriesNumber", title: "Series Number" },
+        { id: "filename", title: "Filename" },
+        { id: "name", title: "Name" },
+        { id: "description", title: "Description" },
+        { id: "gender", title: "Gender" },
+        { id: "attributes", title: "attributes" },
+        { id: "uuid", title: "UUID" },
+        { id: "hash", title: "Hash" },
+      ],
+    });
+
     for (data of csvData) {
       if (data[0] && data[0].includes("TEAM")) {
         teamName = data[0];
@@ -53,8 +72,25 @@ fs.createReadStream("./HNGi9_CSV_FILE _Sheet1.csv")
         });
       }
       const CHIP_0007 = JSON.stringify(jsonformat);
-      const hash = sha256(CHIP_0007);
-      console.log(hash);
-      break;
+      const hashed = sha256(CHIP_0007);
+
+      records.push({
+        teamnames: teamName,
+        seriesNumber: data[1],
+        filename: data[2],
+        name: data[3],
+        description: data[4],
+        gender: data[5],
+        attributes: data[6],
+        uuid: data[7],
+        hash: hashed,
+      });
     }
+    csvWriter
+      .writeRecords(records) // returns a promise
+      .then(() => {
+        console.log(
+          "Please find the output file <filname.output.csv> in this directory. Cheer!"
+        );
+      });
   });
