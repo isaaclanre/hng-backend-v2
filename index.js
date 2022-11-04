@@ -5,7 +5,7 @@ const { parse } = require("csv-parse");
 
 const csvData = [];
 
-fs.createReadStream("./HNGi9_CSV_FILE _Sheet1.csv")
+fs.createReadStream("./inputfile.csv")
   .pipe(parse({ delimiter: ",", from_line: 2 }))
   .on("data", function (row) {
     csvData.push(Object(row));
