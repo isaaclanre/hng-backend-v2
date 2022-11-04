@@ -90,7 +90,7 @@ fs.createReadStream("./inputfile.csv")
       .writeRecords(records) // returns a promise
       .then(() => {
         console.log(
-          "Please find the output file <filname.output.csv> in this directory. Cheer!"
+          "Please find the output file <filname.output.csv> in this directory. Cheers!"
         );
       });
   });
